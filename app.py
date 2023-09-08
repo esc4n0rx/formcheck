@@ -19,7 +19,6 @@ def form():
             'tempo_inicial': request.form['tempo_inicial'],
             'tempo_inicio_separacao': request.form['tempo_inicio_separacao'],
             'nivel': request.form['nivel'],
-            'item_fora_da_rota': request.form['item_fora_da_rota'],
             'tempo_termino_separacao': request.form['tempo_termino_separacao'],
         }
 
