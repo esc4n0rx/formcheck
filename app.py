@@ -12,8 +12,8 @@ app.secret_key = 'shellife'
 # Configurações do Flask-Mail para Outlook
 app.config['MAIL_SERVER'] = 'smtp.office365.com'
 app.config['MAIL_PORT'] = 587
-app.config['MAIL_USERNAME'] = 'paulo.cunha@hortifruti.com.br'  # Substitua com seu e-mail Outlook
-app.config['MAIL_PASSWORD'] = '@catete.366'              # Substitua com sua senha
+app.config['MAIL_USERNAME'] = 'mail'  # Substitua com seu e-mail Outlook
+app.config['MAIL_PASSWORD'] = 'senha'              # Substitua com sua senha
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 
@@ -43,7 +43,7 @@ def index():
             excel_file.seek(0)
 
             # Enviar e-mail com o Excel anexado
-            msg = Message('Dados do Formulário', sender='paulo.cunha@hortifruti.com.br', recipients=['contato.paulooliver9@gmail.com'])
+            msg = Message('Dados do Formulário', sender='mail', recipients=['mail'])
             msg.body = 'Segue em anexo os dados do formulário.'
             msg.attach('dados_formulario.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', excel_file.read())
             mail.send(msg)
