@@ -1,43 +1,60 @@
-from flask import Flask, request, render_template, session, redirect, url_for
-from flask_session import Session
-import csv
+from flask import Flask, render_template, request, redirect, url_for, session
+from flask_mail import Mail, Message
+import pandas as pd
+import os
+from io import BytesIO
+
 
 app = Flask(__name__)
-app.config['SESSION_TYPE'] = 'filesystem'
-Session(app)
+app.secret_key = 'shellife'  
+
+
+# Configurações do Flask-Mail para Outlook
+app.config['MAIL_SERVER'] = 'smtp.office365.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USERNAME'] = 'paulo.cunha@hortifruti.com.br'  # Substitua com seu e-mail Outlook
+app.config['MAIL_PASSWORD'] = '@catete.366'              # Substitua com sua senha
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+
+mail = Mail(app)
+
+
+
 
 @app.route('/', methods=['GET', 'POST'])
-def form():
-    if 'data' not in session:
-        session['data'] = []
-
+def index():
     if request.method == 'POST':
-        # Coletar dados do formulário
-        current_data = {
-            'setor': request.form['setor'],
-            'nt': request.form['nt'],
-            'tempo_inicial': request.form['tempo_inicial'],
-            'tempo_inicio_separacao': request.form['tempo_inicio_separacao'],
-            'nivel': request.form['nivel'],
-            'item_fora_da_rota': request.form['item_fora_da_rota'],
-            'tempo_termino_separacao': request.form['tempo_termino_separacao'],
-        }
+        action = request.form.get('action')
 
-        session['data'].append(current_data)
-        session.modified = True
+        if action == 'next':
+            # Salvando dados na sessão
+            for key in request.form:
+                if key != 'action':
+                    session[key] = request.form[key]
+            return redirect(url_for('form'))
 
-        if request.form['submit_button'] == 'Gerar':
-            # Gravar em um arquivo CSV
-            keys = current_data.keys()
-            with open('responses.csv', 'w', newline='') as output_file:
-                dict_writer = csv.DictWriter(output_file, fieldnames=keys)
-                dict_writer.writeheader()
-                dict_writer.writerows(session['data'])
+        elif action == 'send':
+            # Criar DataFrame e salvar como Excel
+            df = pd.DataFrame([session])
+            excel_file = BytesIO()
+            with pd.ExcelWriter(excel_file, engine='xlsxwriter') as writer:
+                df.to_excel(writer, index=False)
+            excel_file.seek(0)
 
+            # Enviar e-mail com o Excel anexado
+            msg = Message('Dados do Formulário', sender='paulo.cunha@hortifruti.com.br', recipients=['contato.paulooliver9@gmail.com'])
+            msg.body = 'Segue em anexo os dados do formulário.'
+            msg.attach('dados_formulario.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', excel_file.read())
+            mail.send(msg)
+
+            # Limpar sessão
             session.clear()
-            return 'Respostas registradas com sucesso!'
+            return 'E-mail enviado com sucesso!'
 
     return render_template('form.html')
 
+
+
 if __name__ == '__main__':
-       app.run(host='0.0.0.0', port=80,debug=True)
+    app.run(host='0.0.0.0',port='5000',debug=True)

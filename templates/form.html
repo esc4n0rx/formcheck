@@ -3,108 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário de Operações</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #2c3e50, #34495e);
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .main-container {
-            max-width: 400px;
-            padding: 30px;
-            background-color: rgba(255, 255, 255, 0.7);
-            border-radius: 55px;
-            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3), -5px -5px 15px rgba(255, 255, 255, 0.7);
-        }
-
-        .btn-custom {
-            display: block;
-            width: 100%;
-            height: 50px;
-            margin: 10px 0;
-            background-color: #007BFF;
-            text-align: center;
-            border-radius: 25px;
-            color: white;
-            font-weight: bold;
-            line-height: 50px;
-            box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
-            text-decoration: none;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .btn-custom:hover {
-            background-color: #0056b3;
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-    </style>
-    <script>
-        function fillTime(id) {
-            const now = new Date();
-            const timeString = now.toTimeString().split(' ')[0];
-            document.getElementById(id).value = timeString;
-        }
-    </script>
+    <title>Formulário</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
+<style>
+    body {
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+.form-card {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+}
+@media (max-width: 576px) {
+    .form-card {
+        padding: 15px;
+        max-width: 100%;
+    }
+}
+</style>
 <body>
-    <div class="main-container">
-        <h2>Formulário de Operações</h2>
-        <form method="post">
+    <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="card form-card">
+    <div class="container">
+        <h2>Formulário da Loja</h2>
+        <form method="POST">
             <div class="form-group">
-                <label for="setor">Setor:</label>
-                <select class="form-control" name="setor" id="setor">
-                    <option>MERCEARIA</option>
-                    <option>FLV</option>
-                    <option>PERECÍVEIS</option>
-                </select>
-            </div>
-           <div class="form-group">
-                <label for="nt">NT:</label>
-                <input type="text" class="form-control" id="nt" name="nt">
+                <label for="loja">POSIÇÃO</label>
+                <input type="text" class="form-control" id="loja" name="loja">
             </div>
             <div class="form-group">
-                <label for="tempo_inicial">Tempo Inicial:</label>
-                <input type="text" class="form-control" id="tempo_inicial" name="tempo_inicial">
-                <button type="button" class="btn btn-secondary mt-1" onclick="fillTime('tempo_inicial')">Preencher Hora Atual</button>
+                <label for="material">Material</label>
+                <input type="text" class="form-control" id="material" name="material">
             </div>
             <div class="form-group">
-                <label for="tempo_inicio_separacao">Tempo Início Separação:</label>
-                <input type="text" class="form-control" id="tempo_inicio_separacao" name="tempo_inicio_separacao">
-                <button type="button" class="btn btn-secondary mt-1" onclick="fillTime('tempo_inicio_separacao')">Preencher Hora Atual</button>
+                <label for="descricao">Descrição</label>
+                <textarea class="form-control" id="descricao" name="descricao"></textarea>
             </div>
             <div class="form-group">
-                <label for="nivel">Nível:</label>
-                <select class="form-control" name="nivel" id="nivel">
-                    <option>Pulmão</option>
-                    <option>Picking</option>
-                </select>
+                <label for="quantidade">Quantidade</label>
+                <input type="number" class="form-control" id="quantidade" name="quantidade">
             </div>
             <div class="form-group">
-                <label for="item_fora_da_rota">Item fora da rota?</label>
-                <select class="form-control" name="item_fora_da_rota" id="item_fora_da_rota">
-                    <option>Sim</option>
-                    <option>Não</option>
-                </select>
+                <label for="validade">Validade</label>
+                <input type="date" class="form-control" id="validade" name="validade">
             </div>
             <div class="form-group">
-                <label for="tempo_termino_separacao">Tempo Término Separação:</label>
-                <input type="text" class="form-control" id="tempo_termino_separacao" name="tempo_termino_separacao">
-                <button type="button" class="btn btn-secondary mt-1" onclick="fillTime('tempo_termino_separacao')">Preencher Hora Atual</button>
+                <label for="lote">Lote</label>
+                <input type="text" class="form-control" id="lote" name="lote">
             </div>
-            <input type="submit" name="submit_button" value="Próximo" class="btn btn-secondary">
-            <input type="submit" name="submit_button" value="Gerar" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary" name="action" value="next">Próximo</button>
+                <button type="submit" class="btn btn-secondary" name="action" value="send">Enviar</button>
+            </div>
         </form>
     </div>
+</div>
+</div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
